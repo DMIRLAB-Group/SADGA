@@ -4,11 +4,10 @@ The PyTorch implementation of paper [SADGA: Structure-Aware Dual Graph Aggregati
 
 If you use SADGA in your work, please cite it as follows:
 ``` bibtex
-@article{cai2021sadga,
+@inproceedings{cai2021sadga,
   title={SADGA: Structure-Aware Dual Graph Aggregation Network for Text-to-SQL},
   author={Cai, Ruichu and Yuan, Jinjie and Xu, Boyan and Hao, Zhifeng},
-  journal={Advances in Neural Information Processing Systems},
-  volume={34},
+  booktitle={Thirty-Fifth Conference on Neural Information Processing Systems},
   year={2021}
 }
 ```
@@ -58,6 +57,7 @@ We trained our models on one server with a single NVIDIA GTX 3090 GPU with 24GB 
     pip install -r requirements.txt
     python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
 ```
+
 
 ### Run
 
