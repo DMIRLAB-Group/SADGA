@@ -61,7 +61,7 @@ We trained our models on one server with a single NVIDIA GTX 3090 GPU with 24GB 
 
 ### Run
 
-All configs of the experiment and model  are in the file `sadga-glove-run.jsonnet`.
+All configurations of the experiment are in the file `sadga-glove-run.jsonnet` and the model configurations are in `configs/sadga-glove-config.jsonnet`.
 
 ##### Step 1. Preprocess
 
@@ -93,7 +93,7 @@ All configs of the experiment and model  are in the file `sadga-glove-run.jsonne
     python run.py --mode=eval --config=sadga-glove-run.jsonnet
 ```
 
-- The eval phase is equivalent to Spider's official evaluation. We can get the final detailed accuracy result file `acc_res_step{xxx}.txt` for each saved models,  e.g., `logdir/sadga_glove_bs=20_lr=7.4e-04/res/acc_res_step20100.txt`, and the program can print the all inferred steps results as:
+- The eval phase is the Spider's official evaluation. We can get the final detailed accuracy result file `acc_res_step{xxx}.txt` for each saved models,  e.g., `logdir/sadga_glove_bs=20_lr=7.4e-04/res/acc_res_step20100.txt`, and the program will print all the inferred steps results as:
 
  ```
     STEP		ACCURACY
