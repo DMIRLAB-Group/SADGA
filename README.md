@@ -61,7 +61,7 @@ We trained our models on one server with a single NVIDIA GTX 3090 GPU with 24GB 
 
 ### Run
 
-All configurations of the experiment are in the file `sadga-glove-run.jsonnet` and the model configurations are in `configs/sadga-glove-config.jsonnet`.
+All configurations of the experiment and the model are in the file `sadga-glove-run.jsonnet` and `configs/sadga-glove-config.jsonnet`.
 
 ##### Step 1. Preprocess
 
