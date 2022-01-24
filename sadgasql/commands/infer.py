@@ -59,10 +59,8 @@ class Inferer:
             orig_data = datasets.spider.SpiderDataset(paths=config['paths'], tables_paths=config['tables_paths'],
                                                       db_path=config['db_path'])
             preproc_data = self.model_preproc.dataset(args.section)
-            sliced_orig_data = orig_data
-            sliced_preproc_data = preproc_data
             assert len(orig_data) == len(preproc_data)
-            self._inner_infer(model, args.beam_size, sliced_orig_data, sliced_preproc_data, output)
+            self._inner_infer(model, args.beam_size, orig_data, preproc_data, output)
 
     def _inner_infer(self, model, beam_size, sliced_orig_data, sliced_preproc_data, output,
                      use_heuristic=True, output_history=False):

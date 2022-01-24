@@ -61,12 +61,12 @@ We trained our models on one server with a single NVIDIA GTX 3090 GPU with 24GB 
 
 ### Run
 
-All configs of the experiment and model  are in the file `sadga-glove-run.jsonnet`.
+All configs of the experiment and model  are in the files `sadga-glove-run.jsonnet`, `sadga-bert-run.jsonnet`.
 
 ##### Step 1. Preprocess
 
 ```bash
-    python run.py --mode=preprocess --config=sadga-glove-run.jsonnet
+    python run.py --mode preprocess --config sadga-[glove|bert]-run.jsonnet
 ```
 
 - The preprocessing process is basically the same as that of [RATSQL](https://github.com/Microsoft/rat-sql), except that we introduced the Parsing-based Dependency relation in the input Question by applying Stanford CoreNLP toolkit. Our preprocessed dataset can be downloaded [here](https://drive.google.com/file/d/1pMh8GugdjfZhZZcVruTG-tUcGTgJnb8j/view?usp=sharing)(1.6M).
@@ -74,7 +74,7 @@ All configs of the experiment and model  are in the file `sadga-glove-run.jsonne
 ##### Step 2. Training
 
 ```bash
-    python run.py --mode=train --config=sadga-glove-run.jsonnet
+    python run.py --mode train --config sadga-[glove|bert]-run.jsonnet
 ```
 
 - After the training, we can obtain some model-checkpoints in the directory `{logdir}/{model_name}/`, e.g., `logdir/sadga_glove_bs=20_lr=7.4e-04/model_checkpoint-00020100`.
@@ -82,7 +82,7 @@ All configs of the experiment and model  are in the file `sadga-glove-run.jsonne
 ##### Step 3. Inference
 
 ```bash
-    python run.py --mode=infer --config=sadga-glove-run.jsonnet
+    python run.py --mode infer --config sadga-[glove|bert]-run.jsonnet
 ```
 
 - The inference phase aims to output the predicted SQL file `predict_sql_step{xxx}.txt`(the same input format as the official [Spider Evaluation](https://github.com/taoyds/spider)) in the directory `{logdir}/{model_name}/{res_dir}` for each saved models, e.g., `logdir/sadga_glove_bs=20_lr=7.4e-04/res/predict_sql_step20100.txt`.
@@ -90,7 +90,7 @@ All configs of the experiment and model  are in the file `sadga-glove-run.jsonne
 ##### Step 4. Eval
 
 ```bash
-    python run.py --mode=eval --config=sadga-glove-run.jsonnet
+    python run.py --mode eval --config sadga-[glove|bert]-run.jsonnet
 ```
 
 - The eval phase is equivalent to Spider's official evaluation. We can get the final detailed accuracy result file `acc_res_step{xxx}.txt` for each saved models,  e.g., `logdir/sadga_glove_bs=20_lr=7.4e-04/res/acc_res_step20100.txt`, and the program can print the all inferred steps results as:
@@ -107,11 +107,13 @@ All configs of the experiment and model  are in the file `sadga-glove-run.jsonne
 
 ## Results
 
-Our best trained checkpoint, log file, config file, predict_sql file and acc_res file can be downloaded in here:[[logdir.zip](https://drive.google.com/file/d/1Ip5_hsLb4gwoDbsAuStAQ7up5KtFLb9b/view?usp=sharing)]
+Our best trained checkpoints, predict_sql files and acc_res files can be downloaded in here:[[logdir.zip](https://drive.google.com/file/d/1Ip5_hsLb4gwoDbsAuStAQ7up5KtFLb9b/view?usp=sharing)] (GloVe) and [[logdir.zip](https://drive.google.com/file/d/1Ip5_hsLb4gwoDbsAuStAQ7up5KtFLb9b/view?usp=sharing)] (Bert-large)
 
-|      Model       | SADGA + GloVe (origin paper) | SADGA + GloVe (this repo) |
+|      Model       | Exact Match Acc (Dev) | Exact Match Acc (Test) |
 | :--------------: | :------: | :------: |
-| Exact Match Acc (Dev) |    64.7   |   65.6   |
+| SADGA + GloVe |64.7 ( 65.6 this repo ) |   -   |
+| SADGA + Bert-large |    71.6   |   66.7   |
+| SADGA + GAP |    73.1   |   70.1   |
 
 Detailed results can be found in the [paper](https://arxiv.org/abs/2111.00653).
 

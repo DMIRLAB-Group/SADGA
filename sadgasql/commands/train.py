@@ -70,12 +70,29 @@ class Trainer:
     def train(self, config, args):
         modeldir = args.logdir
         with self.init_random:
-            optimizer = registry.construct('optimizer', config['optimizer'], params=self.model.parameters())
-            lr_scheduler = registry.construct('lr_scheduler',
+            if config["optimizer"].get("name", None) == 'bertAdamw':
+                bert_params = list(self.model.encoder.bert_model.parameters())
+                assert len(bert_params) > 0
+                non_bert_params = []
+                for name, _param in self.model.named_parameters():
+                    if "bert" not in name:
+                        non_bert_params.append(_param)
+                assert len(non_bert_params) + len(bert_params) == len(list(self.model.parameters()))
+
+                optimizer = registry.construct('optimizer', config['optimizer'], non_bert_params=non_bert_params,
+                                               bert_params=bert_params)
+                lr_scheduler = registry.construct('lr_scheduler',
                                                   config.get('lr_scheduler', {'name': 'noop'}),
-                                                  param_groups=optimizer.param_groups)
+                                                  param_groups=[optimizer.non_bert_param_group,
+                                                                optimizer.bert_param_group])
+            else:
+                optimizer = registry.construct('optimizer', config['optimizer'], params=self.model.parameters())
+                lr_scheduler = registry.construct('lr_scheduler',
+                                                      config.get('lr_scheduler', {'name': 'noop'}),
+                                                      param_groups=optimizer.param_groups)
         saver = saver_mod.Saver(
             {"model": self.model, "optimizer": optimizer}, keep_every_n=self.train_config.keep_every_n)
+        saver.save(modeldir, 1)
         last_step = saver.restore(modeldir, map_location=self.device)
 
         if "pretrain" in config and last_step == 0:
@@ -132,7 +149,7 @@ class Trainer:
 
 def main(args):
     config = json.loads(_jsonnet.evaluate_file(args.config))
-    logger = Logger(os.path.join(args.logdir, 'log.txt'))
+    logger = Logger(os.path.join(args.logdir, 'log.txt'), reopen_to_flush=config.get('log', {}).get('reopen_to_flush'))
 
     with open(os.path.join(args.logdir,
                            f'config-{datetime.datetime.now().strftime("%Y%m%dT%H%M%S%Z")}.json'), 'w') as f:
