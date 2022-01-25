@@ -107,7 +107,7 @@ All configs of the experiment and model  are in the files `sadga-glove-run.jsonn
 
 ## Results
 
-Our best trained checkpoints, predict_sql files and acc_res files can be downloaded in here:[[logdir.zip](https://drive.google.com/file/d/1Ip5_hsLb4gwoDbsAuStAQ7up5KtFLb9b/view?usp=sharing)] (GloVe) and [[logdir.zip](https://drive.google.com/file/d/1Ip5_hsLb4gwoDbsAuStAQ7up5KtFLb9b/view?usp=sharing)] (Bert-large)
+Our best trained checkpoints, predict_sql files and acc_res files can be downloaded in here: [[logdir.zip](https://drive.google.com/file/d/1Ip5_hsLb4gwoDbsAuStAQ7up5KtFLb9b/view?usp=sharing)] (GloVe) and [[logdir.zip](https://drive.google.com/file/d/17lUvKq3BsPTJzUSSa2ihjrGe0t_fJVMy/view?usp=sharing)] (Bert-large)
 
 |      Model       | Exact Match Acc (Dev) | Exact Match Acc (Test) |
 | :--------------: | :------: | :------: |
