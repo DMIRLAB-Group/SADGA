@@ -15,7 +15,7 @@ If you use SADGA in your work, please cite it as follows:
 
 ## Usage
 
-### Download dataset, third-party dependency and pretrained language model.
+### Download dataset, third-party dependency and pretrained language model
 
 ``` bash
 mkdir -p dataset third_party plm
