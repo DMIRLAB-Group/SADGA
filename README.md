@@ -13,9 +13,6 @@ If you use SADGA in your work, please cite it as follows:
 }
 ```
 
-## Method
-![avatar](graph_aggregation.pdf)
-
 ## Usage
 
 ### Download dataset, third-party dependency and pretrained language model.
@@ -81,7 +78,7 @@ All configs of the experiments and models are in the files `sadga-glove-run.json
     python run.py --mode preprocess --config sadga-[glove|bert|gap]-run.jsonnet
 ```
 
-- Our preprocessed dataset can be downloaded [here](https://drive.google.com/file/d/1Bcn4N5GQEK3DPBpDCntayUbtGc0VNvwQ/view?usp=sharing)(1.6M).
+- Our preprocessed dataset can be downloaded [here](https://drive.google.com/file/d/1gW8Lw-gqNy2PApiv5FhIu8RssreJ2bfw/view?usp=sharing) (5.0M).
 
 ##### Step 2. Training
 
