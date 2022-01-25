@@ -13,6 +13,9 @@ If you use SADGA in your work, please cite it as follows:
 }
 ```
 
+## Method
+![avatar](graph_aggregation.pdf)
+
 ## Usage
 
 ### Download dataset, third-party dependency and pretrained language model.
@@ -47,7 +50,7 @@ Download and unzip [Stanford CoreNLP](https://download.cs.stanford.edu/nlp/softw
         ├── ...
 ```
 
-Regarding the implementation with the pretrained model GAP, download the pertained model from [pretrained-checkpoint](https://gap-text2sql-public.s3.amazonaws.com/checkpoint-artifacts/pretrained-checkpoint) into the directory `plm`.
+Regarding the implementation with the pretrained model GAP ([Learning Contextual Representations for Semantic Parsing with Generation-Augmented Pre-Training](https://arxiv.org/abs/2012.10309)), download the pertained model from [pretrained-checkpoint](https://gap-text2sql-public.s3.amazonaws.com/checkpoint-artifacts/pretrained-checkpoint) into the directory `plm`.
 
 ```
 └── plm
@@ -70,7 +73,7 @@ We trained our models on one server with a single NVIDIA GTX 3090 GPU with 24GB 
 
 ### Run
 
-All configs of the experiment and model  are in the files `sadga-glove-run.jsonnet`, `sadga-bert-run.jsonnet`, `sadga-gap-run.jsonnet`.
+All configs of the experiments and models are in the files `sadga-glove-run.jsonnet`, `sadga-bert-run.jsonnet`, `sadga-gap-run.jsonnet`.
 
 ##### Step 1. Preprocess
 
