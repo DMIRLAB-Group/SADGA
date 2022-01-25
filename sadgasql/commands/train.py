@@ -92,7 +92,6 @@ class Trainer:
                                                       param_groups=optimizer.param_groups)
         saver = saver_mod.Saver(
             {"model": self.model, "optimizer": optimizer}, keep_every_n=self.train_config.keep_every_n)
-        saver.save(modeldir, 1)
         last_step = saver.restore(modeldir, map_location=self.device)
 
         if "pretrain" in config and last_step == 0:

@@ -1,8 +1,8 @@
 import re
 import string
-
+import os
 import nltk.corpus
-
+import sqlite3
 STOPWORDS = set(nltk.corpus.stopwords.words('english'))
 PUNKS = set(a for a in string.punctuation)
 
@@ -122,4 +122,60 @@ def compute_cell_value_linking(tokens, schema):
                     cell_match[f"{q_id},{col_id}"] = CELL_MATCH_FLAG
 
     cv_link = {"num_date_match": num_date_match, "cell_match": cell_match}
+    return cv_link
+
+
+def compute_cell_value_linking_bart(tokens, schema, db_dir):
+    def isnumber(word):
+        try:
+            float(word)
+            return True
+        except:
+            return False
+
+    def db_word_match(word, column, table, db_path):
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        p_str = f"select {column} from {table} where {column} like '{word} %' or {column} like '% {word}' or {column} like '% {word} %'  or {column} like '{word}'"
+        try:
+            cursor.execute(p_str)
+            p_res = cursor.fetchall()
+            if len(p_res) == 0:
+                return False
+            else:
+                return p_res
+        except:
+            return False
+
+    db_name = schema.db_id
+    db_path = os.path.join(db_dir, db_name, db_name + '.sqlite')
+
+    num_date_match = {}
+    cell_match = {}
+
+    for q_id, word in enumerate(tokens):
+        if len(word.strip()) == 0:
+            continue
+        if word in STOPWORDS or word in PUNKS:
+            continue
+
+        num_flag = isnumber(word)
+
+        for col_id, column in enumerate(schema.columns):
+            if col_id == 0:
+                assert column.orig_name == "*"
+                continue
+
+            # word is number
+            if num_flag:
+                if column.type in ["number", "time"]:  # TODO fine-grained date
+                    num_date_match[f"{q_id},{col_id}"] = column.type.upper()
+            else:
+                ret = db_word_match(word, column.orig_name, column.table.orig_name, db_path)
+                if ret:
+                    # print(word, ret)
+                    cell_match[f"{q_id},{col_id}"] = "CELLMATCH"
+
+    cv_link = {"num_date_match": num_date_match, "cell_match": cell_match, "normalized_token": tokens}
     return cv_link

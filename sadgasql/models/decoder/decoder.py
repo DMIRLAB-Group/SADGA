@@ -121,7 +121,7 @@ class DecoderPreproc(abstract_preproc.AbstractPreproc):
         if section == 'train':
             for token in self._all_tokens(root):
                 self.vocab_builder.add_word(token)
-            self._record_productions(root)  # ？
+            self._record_productions(root)
 
         self.items[section].append(
             NL2CodeDecoderPreprocItem(
