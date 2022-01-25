@@ -7,7 +7,7 @@
         infer_name: "sadga_gap",
         pred_name: "predict_sql",
         section: "dev",
-        start_step: 20100,
+        start_step: 31000,
     },
     eval:{
         data_dir: 'dataset/',

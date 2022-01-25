@@ -41,7 +41,7 @@ class Inferer:
 
     def load_model(self, logdir, step):
         '''Load a model (identified by the config used for construction) and return it'''
-        model = registry.construct('model', self.config['model'], preproc=self.model_preproc, device=self.device)
+        model = registry.construct('model', self.config['model'], preproc=self.model_preproc, device=self.device, unused_keys=('decoder_preproc', 'encoder_preproc'))
         model.to(self.device)
         model.eval()
 

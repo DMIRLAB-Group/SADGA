@@ -2,7 +2,7 @@
     local batch_size = 6,
     local num_batch_accumulated = 4,
     local clip_grad = 1,
-    local max_steps = 41000,
+    local max_steps = 61000,
     local lr = 1e-4,
     local b_lr = 1e-5,
     local _data_path = 'dataset/',
