@@ -525,10 +525,10 @@ class EncoderPreproc4Bert(EncoderPreproc):
         self.preprocessed_schemas = {}
 
         self.tokenizer = BertTokenizer.from_pretrained(bert_version)
-        # self.stanfordcore_nlp = StanfordCoreNLP(os.path.abspath(
-        #     os.path.join(
-        #         os.path.dirname(__file__),
-        #         '../../../third_party/stanford-corenlp-full-2018-10-05')))
+        self.stanfordcore_nlp = StanfordCoreNLP(os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                '../../../third_party/stanford-corenlp-full-2018-10-05')))
 
         column_types = ["text", "number", "time", "boolean", "others"]
         self.tokenizer.add_tokens([f"<type: {t}>" for t in column_types])
