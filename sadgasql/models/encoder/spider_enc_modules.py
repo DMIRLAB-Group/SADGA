@@ -298,7 +298,8 @@ class StructureAwareGraphAggrUpdate(torch.nn.Module):
                  word_max_dist=2,
                  ff_size=None,
                  dropout=0.1,
-                 sadga_dropout=0.5):
+                 sadga_dropout=0.5,
+                 activation_func='tanh'):
         super().__init__()
         self._device = device
         self.ggnn_edge_type = 3
@@ -340,6 +341,7 @@ class StructureAwareGraphAggrUpdate(torch.nn.Module):
                     self.ggnn_edge_type,
                     len(self.relation_ids),
                     self._device,
+                    activation_func=activation_func,
                     dropout=sadga_dropout),
                 sadga.PositionwiseFeedForward(
                     hidden_size,

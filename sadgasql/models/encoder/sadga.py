@@ -101,8 +101,7 @@ class PositionwiseFeedForward(nn.Module):
 
 
 class SadgaLayer(nn.Module):
-    def __init__(self, hidden_size, ggnn_num_timesteps, ggnn_num_edge_types, num_relation_kinds, device,
-                 dropout=0):
+    def __init__(self, hidden_size, ggnn_num_timesteps, ggnn_num_edge_types, num_relation_kinds, device, activation_func='tanh', dropout=0):
         super(SadgaLayer, self).__init__()
         self._device = device
         self._hidden_size = hidden_size
@@ -110,7 +109,7 @@ class SadgaLayer(nn.Module):
         self._ggnn_num_edge_types = ggnn_num_edge_types
 
         self._ggnn = GatedGraphConv(hidden_size, ggnn_num_timesteps, ggnn_num_edge_types, dropout=dropout)
-        self._struc_awr_aggr = StructureAwareGraphAggr(hidden_size, dropout)
+        self._struc_awr_aggr = StructureAwareGraphAggr(hidden_size, dropout, activation_func)
 
         self.rel_k_emb = nn.Embedding(num_relation_kinds, self._hidden_size)
         self.rel_v_emb = nn.Embedding(num_relation_kinds, self._hidden_size)
@@ -214,7 +213,8 @@ class SadgaLayer(nn.Module):
 class StructureAwareGraphAggr(nn.Module):
     def __init__(self,
                  d_model,
-                 dropout=0.5):
+                 dropout=0.5,
+                 activation_func='tanh'):
         super(StructureAwareGraphAggr, self).__init__()
 
         self.d_model = d_model
@@ -227,6 +227,7 @@ class StructureAwareGraphAggr(nn.Module):
         self.loc_gate_linear = nn.Linear(d_model * 2, 1)
         self.gate_linear = nn.Linear(d_model * 2, 1)
         self.dropout = nn.Dropout(p=dropout)
+        self.activation_func = torch.tanh if activation_func == 'tanh' else torch.relu
 
     def forward(self,
                 q_enc: torch.Tensor,
@@ -248,14 +249,14 @@ class StructureAwareGraphAggr(nn.Module):
         qk_logit = torch.matmul(q_glob, k_enc.transpose(1, 0))
         qk_r_matmul = torch.matmul(q_glob.unsqueeze(1), rel_k.transpose(-1, -2)).squeeze(1)
         glob_weight = (qk_logit + qk_r_matmul) / math.sqrt(self.d_model)
-        glob_attn = F.softmax(torch.tanh(glob_weight), dim=-1)
+        glob_attn = F.softmax(self.activation_func(glob_weight), dim=-1)
 
         # Step.2 Local Graph Linking
         q_loc = self.loc_query_linear(q_enc)
         qnk_logit = torch.matmul(q_loc, k_enc.transpose(1, 0))
         qnk_r_matmul = torch.matmul(q_loc.unsqueeze(1), rel_k.transpose(-1, -2)).squeeze(1)
         loc_weight = (qnk_logit + qnk_r_matmul) / math.sqrt(self.d_model)
-        loc_attn = torch.tanh(loc_weight)
+        loc_attn = self.activation_func(loc_weight)
 
         # Step.3 Dual-Graph Aggregation
         loc_weight_rep = loc_attn.repeat(1, k_num).view(q_num, k_num, k_num)

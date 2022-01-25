@@ -51,6 +51,7 @@
                 hidden_size: 256,
                 dropout: 0.1,
                 sadga_dropout: 0.5,
+                activation_func: 'relu',
             },
         },
         encoder_preproc: {
