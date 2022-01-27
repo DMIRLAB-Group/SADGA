@@ -1191,7 +1191,7 @@ class Encoder4Gap(torch.nn.Module):
         self.bert_model.resize_token_embeddings(50266)
 
         replace_model_with_pretrained(self.bert_model.encoder, os.path.join(
-            "plm", "gap", "pytorch_model.bin"), "bert.model.encoder.")
+            "plm", "gap", "pretrained-checkpoint"), "bert.model.encoder.")
         self.bert_model.resize_token_embeddings(len(self.tokenizer))
         self.bert_model = self.bert_model.encoder
         self.bert_model.decoder = None

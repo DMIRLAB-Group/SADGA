@@ -18,7 +18,7 @@ If you use SADGA in your work, please cite it as follows:
 ### Download dataset, third-party dependency and pretrained language model.
 
 ``` bash
-mkdir -p dataset third_party plm
+mkdir -p dataset third_party plm/gap
 ```
 
 Download the dataset: [Spider](https://yale-lily.github.io/spider). Then unzip `spider.zip` into the directory `dataset`.
@@ -47,12 +47,12 @@ Download and unzip [Stanford CoreNLP](https://download.cs.stanford.edu/nlp/softw
         ├── ...
 ```
 
-Regarding the implementation with the pretrained model GAP ([Learning Contextual Representations for Semantic Parsing with Generation-Augmented Pre-Training](https://arxiv.org/abs/2012.10309)), download the pertained model from [pretrained-checkpoint](https://gap-text2sql-public.s3.amazonaws.com/checkpoint-artifacts/pretrained-checkpoint) into the directory `plm`.
+Regarding the implementation with the pretrained model GAP ([Learning Contextual Representations for Semantic Parsing with Generation-Augmented Pre-Training](https://arxiv.org/abs/2012.10309)), download the pertained model from [pretrained-checkpoint](https://gap-text2sql-public.s3.amazonaws.com/checkpoint-artifacts/pretrained-checkpoint) into the directory `plm/gap`.
 
 ```
 └── plm
     └── gap
-        └── pytorch_model.bin
+        └── pretrained-checkpoint
 ```
 
 
