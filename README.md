@@ -15,7 +15,7 @@ If you use SADGA in your work, please cite it as follows:
 
 ## Usage
 
-### Download dataset, third-party dependency and pretrained language model.
+### Download dataset, third-party dependency and pretrained language model
 
 ``` bash
 mkdir -p dataset third_party plm/gap
@@ -116,7 +116,12 @@ All configs of the experiments and models are in the files `sadga-glove-run.json
 
 ## Results
 
-Our best trained checkpoints, predict_sql files and accuracy_result files can be downloaded in here:[[logdir.zip](https://drive.google.com/file/d/1Ip5_hsLb4gwoDbsAuStAQ7up5KtFLb9b/view?usp=sharing)] (GloVe: 65.6), [[logdir.zip](https://drive.google.com/file/d/17lUvKq3BsPTJzUSSa2ihjrGe0t_fJVMy/view?usp=sharing)] (Bert-large: 71.6) and  [[logdir.zip](https://drive.google.com/file/d/1yuDoWCzcUq4MCGRqHFIM9Aopf1qfdUNC/view?usp=sharing)] (GAP: 73.9).
+Our best trained checkpoints, predict_sql files and accuracy_result files can be downloaded in here:
+
+[[logdir.zip](https://drive.google.com/file/d/1Ip5_hsLb4gwoDbsAuStAQ7up5KtFLb9b/view?usp=sharing)] (GloVe: 65.6)
+[[logdir.zip](https://drive.google.com/file/d/17lUvKq3BsPTJzUSSa2ihjrGe0t_fJVMy/view?usp=sharing)] (Bert-large: 71.6)
+[[logdir.zip](https://drive.google.com/file/d/1yuDoWCzcUq4MCGRqHFIM9Aopf1qfdUNC/view?usp=sharing)] (GAP: 73.9)
+
 
 |      Model       | Exact Match Acc (Dev) | Exact Match Acc (Test) |
 | :--------------: | :------: | :------: |
@@ -124,7 +129,7 @@ Our best trained checkpoints, predict_sql files and accuracy_result files can be
 | SADGA + Bert-large |    71.6   |   66.7   |
 | SADGA + GAP |    73.1 (73.9 this repo)   |   70.1   |
 
-Detailed results can be found in the [paper](https://arxiv.org/abs/2111.00653).
+Detailed results can be found in the [paper](https://arxiv.org/abs/2111.00653). Note that the Spider official has not released the test set, and the results on the test set are only available by submitting the model to the official evaluation.
 
 ## Acknowledgements
 
