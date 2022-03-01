@@ -260,9 +260,8 @@ class StructureAwareGraphAggr(nn.Module):
 
         # Step.3 Dual-Graph Aggregation
         loc_weight_rep = loc_attn.repeat(1, k_num).view(q_num, k_num, k_num)
-        attn_adj = loc_weight_rep * k_adj
-        zero_vec = -9e15 * torch.ones_like(attn_adj)
-        attn_adj_norm = F.softmax(torch.where(attn_adj != 0, attn_adj, zero_vec), dim=-1)
+        zero_vec = -9e15 * torch.ones_like(loc_weight_rep)
+        attn_adj_norm = F.softmax(torch.where(k_adj != 0, loc_weight_rep, zero_vec), dim=-1)
         k_loc_attn_val = torch.matmul(attn_adj_norm, k_enc)
         k_self_attn_val = k_enc.repeat(q_num, 1, 1)
 
